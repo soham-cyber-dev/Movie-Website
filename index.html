@@ -4,36 +4,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="MoviesAtFingertips - Browse top rated, trending and upcoming movies" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="shortcut icon" href="Icon.ico" type="image/x-icon" />.
+    <link rel="shortcut icon" href="Icon.ico" type="image/x-icon" />
     <title>MoviesAtFingertips</title>
   </head>
   <body>
-    <div class="container">
-      <div class="header">
-      <img src="logo.png" class="poster" alt="logo">
-      <h1>MoviesAtFingertips</h1>
+    <nav class="navbar">
+      <div class="nav-brand">
+        <img src="logo.png" class="nav-logo" alt="logo" />
+        <span class="nav-title">Movies<span class="accent">At</span>Fingertips</span>
       </div>
-      <form>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Search a Movie.."
-          />
+      <form class="search-form" id="search-form">
+        <div class="search-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" id="exampleInputEmail1" placeholder="Search a movie..." autocomplete="off" />
+          <button type="submit" class="search-btn" id="search">Search</button>
         </div>
-        <button type="submit" class="btn" id="search">
-          Search
-        </button>
       </form>
+    </nav>
 
-      <div id="movies-searchable"></div>
-      <div id="movies-container"></div>
+    <div id="search-results-section" class="search-results-section hidden">
+      <div class="section-label">
+        <span class="label-line"></span>
+        <span class="label-text" id="search-label">Search Results</span>
+        <span class="label-line"></span>
+      </div>
+      <div id="movies-searchable" class="movies-row"></div>
     </div>
 
+    <main class="main-content">
+      <div id="movies-container"></div>
+    </main>
+
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal">
+        <button class="modal-close" id="modal-close">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <h3 class="modal-title" id="modal-title">Trailers</h3>
+        <div class="modal-videos" id="modal-videos"></div>
+        <div class="modal-loading" id="modal-loading">
+          <div class="spinner"></div>
+          <p>Loading trailers...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
     <script src="apiTransaction.js"></script>
-    <script src=" app.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

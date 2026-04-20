@@ -1,57 +1,47 @@
-
-
-const MOVIE_DB_API = '6bf3b3542f9ff12290736047042a751d';
-const MOVIE_DB_ENDPOINT = 'https://api.themoviedb.org';
+const MOVIE_DB_API            = '6bf3b3542f9ff12290736047042a751d';
+const MOVIE_DB_ENDPOINT       = 'https://api.themoviedb.org';
 const MOVIE_DB_IMAGE_ENDPOINT = 'https://image.tmdb.org/t/p/w500';
-const DEFAULT_POST_IMAGE = 'https://via.placeholder.com/150';
 
 function requestMovies(url, onComplete, onError) {
     fetch(url)
-        .then((res) => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+            return res.json();
+        })
         .then(onComplete)
         .catch(onError);
 }
 
 function generateMovieDBUrl(path) {
-    const url = `${MOVIE_DB_ENDPOINT}/3${path}?api_key=${MOVIE_DB_API}`;
-    return url;
+    return `${MOVIE_DB_ENDPOINT}/3${path}?api_key=${MOVIE_DB_API}`;
 }
 
-
-function getTopRatedMovies() {
-    const url = generateMovieDBUrl(`/movie/top_rated`);
-    const render = renderMovies.bind({ title: 'Top Rated Movies' })
-    requestMovies(url, render, handleGeneralError);
+function getTopRatedMovies(callback) {
+    const url = generateMovieDBUrl('/movie/top_rated');
+    requestMovies(url, callback, handleGeneralError);
 }
 
-function getTrendingMovies() {
+function getTrendingMovies(callback) {
     const url = generateMovieDBUrl('/trending/movie/day');
-    const render = renderMovies.bind({ title: 'Trending Movies' })
-    requestMovies(url, render, handleGeneralError);
+    requestMovies(url, callback, handleGeneralError);
 }
 
-
-function searchUpcomingMovies() {
+function searchUpcomingMovies(callback) {
     const url = generateMovieDBUrl('/movie/upcoming');
-    const render = renderMovies.bind({ title: 'Upcoming Movies' })
-    requestMovies(url, render, handleGeneralError);
+    requestMovies(url, callback, handleGeneralError);
 }
 
-function searchPopularMovie() {
+function searchPopularMovie(callback) {
     const url = generateMovieDBUrl('/movie/popular');
-    const render = renderMovies.bind({ title: 'Popular Movies' });
-    requestMovies(url, render, handleGeneralError);
+    requestMovies(url, callback, handleGeneralError);
 }
 
-// Invoke a different function for search movies
 function searchMovie(value) {
-    const url = generateMovieDBUrl('/search/movie') + '&query=' + value;
+    const url = generateMovieDBUrl('/search/movie') + '&query=' + encodeURIComponent(value);
     requestMovies(url, renderSearchMovies, handleGeneralError);
 }
 
-
-function getVideosByMovieId(movieId, content) {
+function getVideosByMovieId(movieId) {
     const url = generateMovieDBUrl(`/movie/${movieId}/videos`);
-    const render = createVideoTemplate.bind({ content });
-    requestMovies(url, render, handleGeneralError);
+    requestMovies(url, createVideoTemplate, handleGeneralError);
 }
